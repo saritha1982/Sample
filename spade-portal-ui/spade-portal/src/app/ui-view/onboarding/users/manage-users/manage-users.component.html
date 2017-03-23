@@ -1,0 +1,42 @@
+<br>
+<div class="container">
+  <h1>
+    Manage Users
+  </h1>
+  <hr>
+  <div class="table-responsive" *ngIf = "!disable">
+    <table class="table table-bordered table-striped">
+      <thead class="bg-info">
+      <tr>
+        <th>User Name</th>
+        <th>Email Address</th>
+        <th>Access Level</th>
+        <!--<th>Disabled Status</th>-->
+        <th>Project List</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of userDetails">
+        <td>{{ user.userName }}</td>
+        <td>{{ user.emailAddress }}</td>
+        <td>{{ user.accessLevel }}</td>
+        <!--<td>{{ user.disabled }}</td>-->
+        <td><div *ngFor="let project of user.projectList">{{ project.projectName }}</div></td>
+        <td align="center">
+          <button type="button" class="action" (click)="editUser(user.userName,user.emailAddress,user.accessLevel,user.projectList)">     <!--user.disabled,-->
+            <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px"></span>
+          </button>
+          <button type="button" class="action" (click)="deleteUser(user.userName,user.emailAddress,user.accessLevel,user.projectList)">     <!--user.disabled,-->
+              <span class="fa fa-minus-circle" aria-hidden="true" style="font-size:25px"></span>
+          </button>
+        </td>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf = "disable">
+    <h3>User is disabled</h3>
+    <br><br>
+    <button type="button" class="btn btn-default" (click)="goBack()">Go Back</button>
+  </div>
+</div>

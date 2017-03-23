@@ -1,0 +1,78 @@
+<!-- Carousel -->
+<div id="banner" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ul class="carousel-indicators" style="left: 250px;">
+    <li data-target="#banner" data-slide-to="0" class="active"></li>
+    <li data-target="#banner" data-slide-to="1"></li>
+    <li data-target="#banner" data-slide-to="2"></li>
+    <li data-target="#banner" data-slide-to="3"></li>
+    <li data-target="#banner" data-slide-to="4"></li>
+  </ul>
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="carousel-item active">
+      <img src="assets/path/to/image/scrum-trial.png">
+      <div class="carousel-caption"><br>
+        <h1>Scrum Team Approach</h1>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="assets/path/to/image/developer.jpg">
+      <div class="carousel-caption"><br>
+        <h1>Solution Architect</h1>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="assets/path/to/image/two_guys.jpg">
+      <div class="carousel-caption"><br>
+        <h1>Project Manager</h1>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="assets/path/to/image/two_ladies.jpg">
+      <div class="carousel-caption"><br>
+        <h1>Software Developer</h1>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="assets/path/to/image/guy_with_server.jpg">
+      <div class="carousel-caption"><br>
+        <h1>QA Engineer</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<ul class="nav nav-tabs">
+  <div class="col-sm-1 col-md-1">
+  </div>
+  <div class="col-sm-2 col-md-2">
+    <li class="nav-item" data-target="#banner" data-slide-to="0">
+      <a class="nav-link" routerLink="scrum" routerLinkActive="active">Scrum-Team Approach</a>
+    </li>
+  </div>
+  <div class="col-sm-2 col-md-2">
+    <li class="nav-item" data-target="#banner" data-slide-to="1">
+      <a class="nav-link" routerLink="solution-architect" routerLinkActive="active">Solution Architect</a>
+    </li>
+  </div>
+  <div class="col-sm-2 col-md-2">
+    <li class="nav-item" data-target="#banner" data-slide-to="2">
+      <a class="nav-link" routerLink="project-manager" routerLinkActive="active">Project Manager</a>
+    </li>
+  </div>
+  <div class="col-sm-2 col-md-2">
+    <li class="nav-item" data-target="#banner" data-slide-to="3">
+      <a class="nav-link" routerLink="software-developer" routerLinkActive="active">Software Developer</a>
+    </li>
+  </div>
+  <div class="col-sm-2 col-md-2">
+    <li class="nav-item" data-target="#banner" data-slide-to="4">
+      <a class="nav-link" routerLink="qa-engineer" routerLinkActive="active">QA Engineer</a>
+    </li>
+  </div>
+  <div class="col-sm-1 col-md-1">
+  </div>
+</ul>
+<router-outlet></router-outlet>

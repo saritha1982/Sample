@@ -1,0 +1,13 @@
+/* Charts Section */
+
+.container {
+
+}
+
+section {
+  padding: 2%;
+}
+
+section.charts {
+  background-color: #e7e7e7;
+}

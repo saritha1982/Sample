@@ -1,0 +1,215 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Activiti-Operations",
+		"_postman_id": "0f531ddb-2405-b566-116e-ce641453d67d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "deployments",
+			"description": "",
+			"item": [
+				{
+					"name": "deploy",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/repository/deployments",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ProjectOnboardingProcess",
+									"type": "file",
+									"enabled": true,
+									"warning": "",
+									"src": "ProjectOnboardingProcess.bpmn"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getDeployment",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/repository/deployments?name=ProjectOnboardingProcess.bpmn",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "process-definitions",
+			"description": "",
+			"item": [
+				{
+					"name": "getProcessDefinition",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/repository/process-definitions?name=ProjectOnboardingProcess",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Test",
+									"type": "file",
+									"enabled": true,
+									"warning": "",
+									"src": "ProjectOnboardingProcess.bpmn"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "processInstance",
+			"description": "",
+			"item": [
+				{
+					"name": "startOrojectOnboarding",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/runtime/process-instances",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"processDefinitionKey\":\"ProjectOnboardingProcess\",\r\n   \"businessKey\":\"myBusinessKey\",\r\n   \r\n   \"variables\": [\r\n      {\r\n        \"name\":\"Project\",\r\n        \"value\":\"NSO-Validation\"\r\n      },\r\n      {\r\n        \"name\":\"Domain\",\r\n        \"value\":\"NSO\"\r\n      },\r\n      {\r\n        \"name\":\"Owner\",\r\n        \"value\":\"Vijay\"\r\n      },\r\n      {\r\n        \"name\":\"Approval\",\r\n        \"value\":\"yes\"\r\n      },\r\n      {\r\n        \"name\":\"To\",\r\n        \"value\":\"anunag@cisco.com\"\r\n      },\r\n      {\r\n        \"name\":\"ProjectId\",\r\n        \"value\":\"NSO-Validation\"\r\n      },\r\n      {\r\n        \"name\":\"RallyBaseURL\",\r\n        \"value\":\"https://rally1.rallydev.com/\"\r\n      },\r\n      {\r\n        \"name\":\"GithubURL\",\r\n        \"value\":\"https://github3.cisco.com\"\r\n      },\r\n      {\r\n        \"name\":\"JenkinsJobURL\",\r\n        \"value\":\"https://engci-jenkins-blr.cisco.com/jenkins/job/team_AS-APJ/job/Java_Project_Template/\"\r\n      }\r\n   ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getProcessInstance",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/runtime/process-instances/{{processInstanceId}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProcessAttributes",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/runtime/process-instances/{{processInstanceId}}/variables",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getProcessAttribute",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/runtime/process-instances/{{processInstanceId}}/variables/{{variableName}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "addUpdateProcessAttr",
+					"request": {
+						"url": "{{ACIVITI_BASE_URL}}/runtime/process-instances/{{processInstanceId}}/variables",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic a2VybWl0Omtlcm1pdA==",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n   {\r\n      \"name\":\"newAttr\",\r\n      \"type\":\"string\",\r\n      \"value\":\"test\"\r\n   }\r\n]"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

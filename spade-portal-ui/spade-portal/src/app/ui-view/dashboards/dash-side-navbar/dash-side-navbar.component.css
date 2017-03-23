@@ -1,0 +1,13 @@
+.navbar-fixed-left {
+  padding-top: 3%;
+  padding-left: 2%;
+  width: 12%;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+  color: blue;
+}
+
+.container {
+  margin-left: 13% !important;
+}

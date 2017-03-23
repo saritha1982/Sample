@@ -1,0 +1,12 @@
+.carousel-inner {
+  height: 50%;
+}
+
+.carousel-indicators li {
+  border: 1px solid #abc233;
+  /*border: 1px solid #3071a9;*/
+}
+
+.carousel-indicators .active {
+  background-color: #abc233;
+}

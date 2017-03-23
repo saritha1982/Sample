@@ -1,0 +1,10 @@
+.navbar-fixed-left {
+  /*margin-top: 30px !important;*/ /*Changed */
+  padding-top: 3%;
+  padding-left: 2%;
+  width: 12%;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+  color: blue;
+}

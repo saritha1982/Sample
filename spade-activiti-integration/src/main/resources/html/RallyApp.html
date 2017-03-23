@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Store Grid</title>
+
+    <script type="text/javascript" src="/apps/2.1/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function() {
+            Ext.define('Rally.example.CustomStoreGrid', {
+                extend: 'Rally.app.App',
+                componentCls: 'app',
+            
+                launch: function() {
+                    Ext.create('Rally.data.wsapi.Store', { 
+                        model: 'userstory',
+                        autoLoad: true,
+                        listeners: {
+                            load: this._onDataLoaded,
+                            scope: this
+                        },
+                        fetch: ['FormattedID', 'Name', 'ScheduleState', 'Changesets', 'Defects', 'TestRun']
+                    });
+                    Ext.create('Rally.data.wsapi.Store', { 
+                        model: 'Changeset',
+                        autoLoad: true,
+                        listeners: {
+                            load: this._onDataLoaded,
+                            scope: this
+                        },
+                        fetch: ['Message', 'CommitTimestamp', 'Uri']
+                    });
+                },
+            
+                _onDataLoaded: function(store, data) {
+                    var records = _.map(data, function(record) {
+                        //alert(record.getId());
+                        //Perform custom actions with the data here
+                        //Calculations, etc.
+                        return Ext.apply({
+                            TaskCount: record.get('Tasks').Count,   
+                        }, record.getData());
+                    });
+ 
+           
+                    this.add({
+                        xtype: 'rallygrid',
+                        showPagingToolbar: false,
+                        showRowActionsColumn: false,
+                        editable: false,
+                        selType: 'rowmodel',
+                        plugins: [{
+                             ptype: 'rowexpander',
+                             rowBodyTpl : new Ext.XTemplate(
+                             '<p><b>SCM:</b> {SCM}</p>',
+                             '<p><b>CI Server:</b> {Ci_Server}</p><br>',
+                             '<p><b>Quality Server:</b> {QAServer}</p>',
+                                {
+                                  formatChange: function(v){
+                                    var color = v >= 0 ? 'green' : 'red';
+                                    return '<span style="color: ' + color + ';">' + v + '</span>';
+                                }
+                             })
+                        }],
+                        collapsible: true,
+                        store: Ext.create('Rally.data.custom.Store', {
+                            data: records
+                        }),
+                        columnCfgs: [
+                            {
+                                xtype: 'templatecolumn',
+                                text: 'ID',
+                                dataIndex: 'FormattedID',
+                                width: 100,
+                                tpl: Ext.create('Rally.ui.renderer.template.FormattedIDTemplate')
+                            },
+                            {
+                              
+                                text: 'Name',
+                                dataIndex: 'Name',
+                                width: 500,
+                                flex: 0
+                            },
+                            {
+                                
+                                text: 'Schedule State',
+                                dataIndex: 'ScheduleState'
+                            },
+                            {
+                                
+                                text: 'Last Check-in Info',
+                                dataIndex: 'Changesets',
+                                renderer: function(value) {
+                                 
+                                 return Ext.String.format('<a href="{1}">uri</a>', uri);
+                                    //return Ext.String.format('<div style="color:blue;border-style:solid;">lin1 <br> line2 <br> line <br> </div> <br> <div style="border-style:solid;">lin1 <br> line2 //<br> line <br> </div>',  value._ref);
+                                    
+                                }
+                            },
+                            {
+                                
+                                text: 'Last Build Info',
+                                dataIndex: 'Defects',
+                                renderer: function(value) {
+                                    return Ext.String.format('<a href="https://github3.cisco.com/as-ci-user-gen/spade-cicd-portal">{1}</a>', value, value);
+                                }
+                            },
+                            {
+                                
+                                text: 'Last Test Run Info',
+                                dataIndex: 'TaskCount'
+                            },
+                            {
+                                text: 'Artifacts Info',
+                                dataIndex: 'TaskCount'
+                            },
+                            {
+                                
+                                text: 'Quality Info',
+                                dataIndex: 'TaskCount'
+                            }
+                        ],
+                        
+                    });
+                }
+            });
+            
+
+            Rally.launchApp('Rally.example.CustomStoreGrid', {
+              name: 'Custom Store Grid Example'
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        
+    </style>
+</head>
+<body></body>
+</html>

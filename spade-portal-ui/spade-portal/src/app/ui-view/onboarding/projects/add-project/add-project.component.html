@@ -1,0 +1,531 @@
+<br>
+<div class="container">
+  <h1>
+    Add Project
+  </h1>
+  <hr>
+    <b>The on-boarding/admin User should have Github enterprise account <a href="https://github3.cisco.com/" target="_blank">(github3.cisco.com)</a> before on boarding a project.</b>
+  <hr>
+</div>
+
+<div class="container" [hidden]="submitted || successfulSubmission">
+  <form [formGroup]="projectOnboardingForm" (ngSubmit)="onSubmit()" novalidate>
+    <h5>Onboard Details</h5>
+    <hr>
+    <!-- CheckBox Code Commented Below
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td>
+            <label>
+              <input type="checkbox" formControlName="checkAll" (click)="selectAll()">
+              All Project Fields
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="projectId">
+              <input type="checkbox" formControlName="check1" (click)="changeOption(1)">
+              Project ID
+            </label>
+          </td>
+          <td>
+            <input id="projectId" type="text" class="form-control" formControlName="projectId" [hidden]="!check1" [(ngModel)]="projectId">
+          </td>
+          <td>
+            <label for="contractId">
+              <input type="checkbox" formControlName="check2" (click)="changeOption(2)">
+              Contract ID
+            </label>
+          </td>
+          <td>
+            <input id="contractId" type="text" class="form-control" formControlName="contractId" [hidden]="!check2" [(ngModel)]="contractId">
+          </td>
+          <td>
+            <label for="clarityId">
+              <input type="checkbox" formControlName="check3" (click)="changeOption(3)">
+              Clarity ID
+            </label>
+          </td>
+          <td>
+            <input id="clarityId" type="text" class="form-control" formControlName="clarityId" [hidden]="!check3" [(ngModel)]="clarityId">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <label>Onboard ID</label>
+          </td>
+          <td colspan="3">
+            <label>{{projectId}}</label>
+            <label>- {{contractId}}</label>
+            <label>- {{clarityId}}</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    -->
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td>
+            <label for="projectId">
+              Project ID <label style="color: red">*</label>
+            </label>
+          </td>
+          <td>
+            <input id="projectId" type="number" class="form-control" formControlName="projectId" [(ngModel)]="projectId">
+          </td>
+          <td>
+            <label for="contractId">
+              Contract ID
+            </label>
+          </td>
+          <td>
+            <input id="contractId" type="text" class="form-control" formControlName="contractId" [(ngModel)]="contractId">
+          </td>
+          <td>
+            <label for="clarityId">
+              Clarity ID
+            </label>
+          </td>
+          <td>
+            <input id="clarityId" type="text" class="form-control" formControlName="clarityId" [(ngModel)]="clarityId">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <label>Onboard ID</label>
+          </td>
+          <td colspan="3">
+            <label>{{projectId}}</label>
+            <label>- {{contractId}}</label>
+            <label>- {{clarityId}}</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h5>Project Details</h5>
+    <hr>
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td>
+            <label for="workType">Work Type <label style="color: red">*</label> </label>
+          </td>
+          <td>
+            <select id="workType" class="form-control" formControlName="workType" (change)="getCustomerList()" (click)="updateCustomerList()">
+              <option>--Select a Work Type--</option>
+              <option *ngFor = "let w of workTypeList">
+                {{w.workTypeName}}
+              </option>
+            </select>
+          </td>
+          <td>
+            <label for="customerName">Customer Name  <label style="color: red">*</label> </label>
+            <button type="button" class="action" (click)="gotoAddCustomer()">
+              <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:20px"></span>
+            </button>
+          </td>
+          <td>
+            <select id="customerName" class="form-control" formControlName="customerName" (change)="getCustomerId()">
+              <option>--Select a Customer--</option>
+              <option *ngFor = "let c of customerNameList" >
+                {{c.name}}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="technology">Technology <label style="color: red">*</label> </label>
+            <button type="button" class="action" data-toggle="modal" data-target="#technologyModal" (click)="checkCustomer()">
+              <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:20px"></span>
+            </button>
+
+            <!-- Modal -->
+            <div *ngIf="customerStatus" class="modal fade" id="technologyModal" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a Technology</h5>
+                  </div>
+                  <div class="modal-body">
+                    <form [formGroup]="technologyForm" (ngSubmit)="addTechnology()">
+                      <div class = "row">
+                        <div class="col-sm-6">
+                          <label for="technologyName">Technology Name</label>
+                        </div>
+                        <div class="col-sm-6" >
+                          <input type="text" id="technologyName" class="form-control" formControlName="technologyName">
+                        </div>
+                      </div>
+                      <!--<br/>
+                      <div class = "row">
+                        <div class="col-sm-6">
+                          <label for="gitRepoName">Github Repository Name</label>
+                        </div>
+                        <div class="col-sm-6" >
+                          <input type="text" id="gitRepoName" class="form-control" formControlName="gitRepoName">
+                        </div>
+                      </div>-->
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="addTechnology()" data-dismiss="modal">Add Technology</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <select id="technology" class="form-control" formControlName="technology" (change)="getProjectManager()">
+              <option>--Select a Technology--</option>
+              <option *ngFor = "let t of technologyList">
+                {{t.technologyName}}
+              </option>
+            </select>
+          </td>
+          <!--Category-->
+          <td>
+            <label for="category">Category <label style="color: red">*</label> </label>
+            <button type="button" class="action" data-toggle="modal" data-target="#CategoryModal" (click)="checkTechnology()">
+              <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:20px"></span>
+            </button>
+            <!-- Modal -->
+            <div *ngIf="technologyStatus" class="modal fade" id="CategoryModal" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Add a Category</h5>
+                  </div>
+                  <div class="modal-body">
+                    <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
+                      <div class = "row">
+                        <div class="col-sm-6">
+                          <label for="technologyName">Category Name</label>
+                        </div>
+                        <div class="col-sm-6" >
+                          <input type="text" id="categoryName" class="form-control" formControlName="categoryName">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="addCategory()" data-dismiss="modal">Add Category</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <select id="category" class="form-control" formControlName="category">
+              <option>--Select a Category--</option>
+              <<option *ngFor = "let t of categoryList">
+              {{t.categoryName}}
+            </option>
+              <!--<option *ngFor = "let t of technologyList">
+                {{t.technologyName}}
+              </option>-->
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="projectName">Project Name <label style="color: red">*</label> </label>
+          </td>
+          <td>
+            <input id="projectName" type="text" class="form-control" formControlName="projectName">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="startDate">Project Start Date</label>
+          </td>
+          <td>
+            <input id="startDate" type="date" class="form-control" formControlName="projectStartDate" style="text-transform:uppercase">
+          </td>
+          <td>
+            <label for="endDate">Project End Date</label>
+          </td>
+          <td>
+            <input id="endDate" type="date" class="form-control" formControlName="projectEndDate" style="text-transform:uppercase">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="projectRequestType">Project Request Type</label>
+          </td>
+          <td>
+            <select id="projectRequestType" class="form-control" formControlName="projectRequestType">
+              <option *ngFor="let p of projectRequestTypeList">
+                {{p.name}}
+              </option>
+            </select>
+          </td>
+          <td *ngIf="(projectRequestType | async) == 'Change Request' || (projectRequestType | async) == 'Code Dev'">
+            <label for="earlierProjectReference">Earlier Project Reference*</label>
+          </td>
+          <td *ngIf="(projectRequestType | async) == 'Change Request' || (projectRequestType | async) == 'Code Dev'">
+            <select id="earlierProjectReference" class="form-control" formControlName="earlierProjectReference">
+              <option>--Select a Project Reference--</option>
+              <option *ngFor="let e of earlierProjectReferenceList">
+                {{e.projectName}}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr *ngIf="(projectRequestType | async) == 'Code Dev'">
+          <td>
+            <label for="businessUnit">Business Unit</label>
+          </td>
+          <td>
+            <input id="businessUnit" type="text" class="form-control" formControlName="businessUnit">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="projectManager">Project Manager</label>
+          </td>
+          <td>
+            <input id="projectManager" type="text" class="form-control" formControlName="projectManager">
+          </td>
+          <!--<td>
+            <select id="projectManager" class="form-control" formControlName="projectManager">
+              <option>--Select a Project Manager--</option>
+              <option *ngFor="let p of projectManagerList">
+                {{p.userName}}
+              </option>
+            </select>
+          </td>-->
+          <td>
+            <label for="projectType">Project Type</label>
+          </td>
+          <td>
+            <select id="projectType" class="form-control" formControlName="projectType">
+              <option>--Select a Project Type--</option>
+              <option *ngFor="let p of projectTypeList">
+                {{p.name}}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="parentProject">Parent Project</label>
+          </td>
+          <td>
+            <select id="parentProject" class="form-control" formControlName="parentProject">
+              <option>--Select a Parent Project--</option>
+              <option *ngFor="let p of parentProjectList">
+                {{p.earlierProjectReference}}
+              </option>
+            </select>
+          </td>
+          <td>
+            <label for="notes">Notes</label>
+          </td>
+          <td>
+            <textarea id="notes" rows="3" cols="25" class="form-control" formControlName="notes"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-------------------------------------------------------------Associate User-------------------------------------------------------------->
+
+    <h4>Associate User</h4>
+    <h6>Atleast admin/on-boarding user for the repository must be added to onboard.</h6>
+    <hr>
+    <form #form="ngForm" (ngSubmit) = "submit(form,true)">
+      <table class="table table-bordered table-striped">
+
+        <!--Table Header-->
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Email Address</th>
+            <th>Access Level</th>
+            <th>Project Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <!--Table Body-->
+        <tbody *ngIf="wflag">
+          <tr *ngFor="let x of widget; let  i = index; let j = last">
+            <td>{{x.userName}}</td>
+            <td>{{x.emailAddress}}</td>
+            <td>{{x.accessLevel}}</td>
+            <td>{{x.projectRole}}</td>
+            <td>
+              <!-- <button type="button" (click)="delete(x.userName)">Delete</button> -->
+              <button type="button" class="action" (click)="edit(x.userName)">
+                <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px"></span>
+              </button>
+              <button type="button" class="action" (click)="delete(x.userName,true)">
+                <span class="fa fa-minus-circle" aria-hidden="true" style="font-size:25px"></span>
+              </button>
+              <button type = "button" class= "action" *ngIf="j" (click) = "addRow()">
+
+                  <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:25px;" ></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf= "editFlag">
+          <tr *ngFor="let e1 of edits1">
+            <td>{{e1.userName}}</td>
+            <td>{{e1.emailAddress}}</td>
+            <td>{{e1.accessLevel}}</td>
+            <td>{{e1.projectRole}}</td>
+            <td>
+              <button type="button" class="action" (click)="edit(e1.userName)">
+                <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px;"></span>
+              </button>
+              <button type="button" class="action" (click)="delete(e1.userName,true)">
+                <span class="fa fa-minus-circle" aria-hidden="true"  style="font-size:25px"></span>
+              </button>
+            </td>
+          </tr >
+        </tbody>
+
+        <tbody *ngIf= "editFlag">
+          <tr>
+            <td><input type="email" class="user-form-control" value="{{xname}}" [(ngModel)]="eUname" name="eUname"></td>
+            <td><input type="email" class="user-form-control" value="" [(ngModel)]="edmail" name="edmail"></td>
+
+            <td>
+              <select name="eaccess1" class="user-form-control" [(ngModel)]="eaccess1">
+                <option *ngFor="let a of accessLevels">
+                  {{a}}
+                </option>
+              </select>
+            </td>
+            <td>
+              <select name="eprr1" class="user-form-control" [(ngModel)]="eprr1">
+                <option *ngFor = "let pr of projectRoleList">
+                  {{pr.roleName}}
+                </option>
+              </select>
+            </td>
+            <td>
+              <button type="button" class="action" (click)="esub()">
+                <span class="fa fa-check" aria-hidden="true" style="font-size:25px;"></span>
+              </button>
+              <button type="button" class="action" (click)="delete(eUname,false)">
+                <span class="fa fa-minus-circle" aria-hidden="true" style="font-size:25px"></span>
+              </button>
+
+              <button type = "button" class= "action" *ngIf="add" (click) = "addRow()">
+
+                  <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:25px;" ></span>
+
+              </button>
+
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf= "editFlag">
+          <tr *ngFor="let e3 of edits3">
+            <td>{{e3.userName}}</td>
+            <td>{{e3.emailAddress}}</td>
+            <td>{{e3.accessLevel}}</td>
+            <td>{{e3.projectRole}}</td>
+            <td>
+              <button type="button" class="action" (click)="edit(e1.userName)">
+                <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px;"></span>
+              </button>
+              <button type="button" class="action" (click)="delete(e1.userName,true)">
+                <span class="fa fa-minus-circle" aria-hidden="true" style="font-size:25px"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf= "subFlag">
+          <tr>
+            <td>
+              <input type="email" class="user-form-control" [(ngModel)]="userName"  name="userName">
+            </td>
+            <td>
+              <input type="email" class="user-form-control" [(ngModel)]="emailAddress" name="emailAddress">
+            </td>
+            <td>
+              <select name="accessLevel" class="user-form-control" [(ngModel)]="accessLevel">
+                <option *ngFor="let a of accessLevels">
+                  {{a}}
+                </option>
+              </select>
+            </td>
+            <td>
+              <select name="projectRole" class="user-form-control" [(ngModel)]="projectRole">
+                <option>--Select a Project Role--</option>
+                <option *ngFor = "let pr of projectRoleList">
+                  {{pr.roleName}}
+                </option>
+              </select>
+            </td>
+            <td>
+              <div style="margin-left:39px;">
+                <button type="submit" class="action" data-toggle="modal" data-target="#myModal">
+                    <span class="fa fa-user-plus" aria-hidden="true" style="font-size:25px;" ></span>
+                </button>
+
+
+                 <div class="modal fade" id="myModal" role="dialog" *ngIf = "false">
+                    <div class="modal-dialog">
+
+                      <div class="modal-content">
+
+                        <div class="modal-body">
+                          <p>The User Doesn't exist in the Github. Please add it first.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <button type="submit" class="btn btn-default" [disabled]="!projectOnboardingForm.valid">Add Project</button>
+  </form>
+  <br>
+</div>
+
+<div class="container" [hidden]="!submitted">
+  <br>
+  <span>
+    Your Project is being On-Boarded on GitHub3 and Rally<br>
+    In Progress...
+  </span>
+  <!--<img src="ajax-loader(1).gif" alt="Searching" />-->
+  <br>
+</div>
+
+<div class="container" [hidden]="!successfulSubmission">
+  <br>
+  <h1>Your Request has been Submitted Successfully</h1>
+  <br>
+  <div class=".container-fluid">
+    <h2>Status: </h2>
+    <ul>
+      <li class="alert alert-success">User Successfully onboarded to Rally.</li>
+      <li class="alert alert-success" *ngIf="!notverified">User Successfully onboarded to Github.</li>
+      <li *ngIf="notverified" class="alert alert-danger"> User doesn't exist in Github. Please contact <a href = "mailto:dummy@cisco.com"></a></li>
+    </ul>
+  </div>
+  <br>
+  <button type="button" class="btn btn-default" (click)="goBack()">Go Back</button>
+</div>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cisco Spade Portal</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!--Added-->
+  <link rel="stylesheet" href="assets/path/to/font-awesome/css/font-awesome.min.css">
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['bar','corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data1 = google.visualization.arrayToDataTable([
+        ['Tool', 'No. of Users'],
+        [' ',0],
+        ['GitHub3', 122],
+        [' ',0],
+        ['Rally', 156],
+        [' ',0]
+      ]);
+
+      var data2 = google.visualization.arrayToDataTable([
+        ['Technology', 'Projects'],
+        ['NSO', 15],
+        ['NFV', 10],
+        ['ACI', 5],
+        ['UCSD', 9],
+        ['Cloud Automation', 7]
+      ]);
+
+      var options = {
+        /*chart: {
+          /!*title: 'Users Onboarded',
+           bold: true*!/
+        },*/
+        is3D: true
+      };
+
+      var chart1 = new google.charts.Bar(document.getElementById('columnChart_material'));
+      var chart2 = new google.visualization.PieChart(document.getElementById('pieChart'));
+      chart1.draw(data1, options);
+      chart2.draw(data2, options);
+    }
+  </script>
+
+</head>
+<body>
+  <app-root>Loading...</app-root>
+</body>
+</html>

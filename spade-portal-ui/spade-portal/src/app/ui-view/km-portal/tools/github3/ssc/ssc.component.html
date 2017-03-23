@@ -1,0 +1,182 @@
+<div class="container">
+  <h1><img src="assets/path/to/image/github-logo.png">GitHub3</h1>
+  <h3>
+    <small>Automatic Publishing of Software Assets</small>
+  </h3>
+  <hr>
+  <p>
+    Software assets on Github3 are automatically published onto Service Software Catalog provided they are part of Standard folder structure described below.
+    For more details on Branching and Structure refer <a (click)="gotoBranching()"><u>GitHub3 Branching & Structure</u></a>
+  </p>
+
+  <h5>GitHub3 standard folder structure</h5>
+  <ul>
+    Community : AS Community
+  </ul>
+
+  <h5>Repositories under AS-Community</h5>
+  <ul>
+    <li>ACI</li>
+    <li>NSO</li>
+    <li>UCSD</li>
+    <li>VMS</li>
+    <li>Analytics</li>
+    <li>XSpeed</li>
+  </ul>
+
+  <p>Each repository maps to a Domain in Service Software Catalog</p>
+  <h5>Each repository has the following folder structure</h5>
+  <ul>
+    Repository (Domain) &ndash;&gt; Subfolder (Categories) &ndash;&gt; Software Assets &ndash;&gt; Asset Contents
+  </ul>
+
+  <p>
+    Each folder maps to a Category in the Service Software Catalog <br>
+    Under these folders there can be multiple sub folder each corresponding to a software asset.
+  </p>
+
+  <h5>Each software asset should have a Readme.md file with the following format.</h5>
+  <ul>Sample Readme.md
+    <div class="jumbotron">
+      <ul>
+        # Description  <br><br>
+
+        Best Practice Linter for ACI checks for a number of AS best practice configurations and reports if those are not present or<br> misconfigured.<br/> <br>
+
+        # Overview  <br><br>
+        The script contains links to various plugins which are invoked in a serial fashion and <br/>
+        the criterion in each plugin is verified. Should there be a misconfiguration or BP <br>
+        violation, the script outputs the object and the misconfiguration and suggests the user to <br>
+        correct the same.<br> <br>
+        The plugins supported currently are for the following checks: <br>
+        - Version of APIC code running. <br>
+        - Check if IP learning on BD is limited to the subnet configured on the BD.<br>
+        - Check if ARP flooding is enabled in the BD.<br>
+        - Check if GARP learning is enabled on the BD.<br> <br>
+
+        # Author <br><br>
+        krchaita<br><br>
+
+        # Version <br><br>
+        1.0 <br><br>
+
+        # Release Date <br><br>
+        22/08/2016 <br><br>
+
+        # Usage <br><br>
+        python bplint.py -uri https://apic -username admin -password ins3965!<br><br>
+      </ul>
+    </div>
+  </ul>
+
+  <p>
+    Whenever a new asset is added or or an existing asset is updated in GitHub3 under AS-Community within the standard folder structure described above,
+    the changes will be reflected automatically within few minutes.
+  </p>
+  <p>
+    A webhook has been defined in git which gets triggered whenever there is any change (Add/Update/Remove) within the AS-Community.
+    Webhook notifies the list of software assets changed to Service Software Catalog. For the changed assets
+    latest Readme.md is read and contents are updated in the Service Software Catalog.
+  </p>
+
+  <h5>Steps to Publish the Software assets on
+    <a target= "_blank" href="https://bgl-astools-win/RequestCenter/servicedesigner/homepage.do">
+      Service Software Catalog
+    </a> from  <a target="_blank" href="https://github3.cisco.com/AS-Community">GitHub3</a>
+  </h5>
+
+  <ul>
+    <li>
+      <strong>Use case 1 -</strong>&nbsp; New software asset is added within the standard folder structure with standard Readme.md <br><br>
+      <ul>
+        <li>
+          When a new software asset is put into <a href="https://github3.cisco.com/AS-Community" target="_blank">GitHub3</a>
+          the details are automatically pulled into<a target="_blank" href="https://bgl-astools-win/RequestCenter/servicedesigner/homepage.do"> Service software Catalog</a>
+          and published.
+        </li>
+        <li>
+          Whenever the new asset is successfully published a mail will be sent to Architect, Author, Product owner and Contributors and to the
+          <a target="_blank" href="mailto:as-cicdtools-admin@cisco.com">Admin</a>
+        </li>
+        <li>
+          If the Readme.md is missing then the Asset will not be published and a notification mail would be sent to the submitter and
+          <a target="_blank" href="mailto:as-cicdtools-admin@cisco.com">Admin</a>
+        </li>
+        <li>
+          Architect, Author, Product owner and Contributors will have an edit option for the asset in the Service Software Catalog. Edit option should be used to
+          <ul>
+            <li>Add an Icon for the asset. Asset gets added with default icon for the first time when it is automatically pulled from Github3.</li>
+            <li>Add the key words. Based on keywords software assets are listed when the search is done on Service software catalog </li>
+            <li>If Software asset needs to be associated with other Domains and Catagories please contact the
+              <a href="mailto:as-cicdtools-admin@cisco.com" target="_blank">Admin </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <br>
+
+    <li>
+      <strong>Use case 2 -</strong>&nbsp; New software asset is added outside the standard folder structure with standard Readme.md <br>
+      <ul>
+        <br>
+        <li>When a new software asset is put into <a href="" target="_blank">GitHub3 </a>
+          outside the standard folder structure the details are NOT automatically pulled into
+          <a href="https://bgl-astools-win/RequestCenter/servicedesigner/homepage.do" target="_blank"> Service software Catalog. </a>
+          Corresponding new domain and/or category needs to be added to Service Software Catalog by the Admin.
+        </li>
+        <li>
+          Send a mail with details to <a href="mailto:as-cicdtools-admin@cisco.com" target="_blank">Admin</a> .
+          Admin will add the domain and/or category and will confirm. Then follow the steps in Use Case 1 to get it published.
+        </li>
+      </ul>
+    </li>
+    <br>
+
+    <li>
+      <strong>Use case 3 -</strong>&nbsp; Anytime Existing Software Asset within the standard folder structure is updated <br>
+      <ul>
+        <br>
+        <li>When any software asset is updated in GitHub3 corresponding Readme.md is read by Service Software Catalog and its contents are updated.</li>
+        <li>If the changed contents of the Readme.md are not getting reflected in Service Software Catalog please contact the
+          <a href="mailto:as-cicdtools-admin@cisco.com" target="_blank"> Admin </a>
+          with details like time and asset that got updated.
+        </li>
+      </ul>
+    </li>
+    <br>
+
+    <li>
+      <strong>Use case 4 -</strong>&nbsp; Removing the software asset from the Service Software Catalog <br>
+      <ul>
+        <br>
+        <li>
+          Architect, Author, Product owner and Contributors have an edit option for the asset in the Service Software Catalog.
+          Edit option has a check box to hide the asset. When checked the Software asset does not show up in search and
+          listing.
+        </li>
+        <li>
+          If the Software Asset needs to be permanently removed then first remove it from GitHub3.
+          Then hide the Asset in Service Software Catalog. Then please contact the
+          <a href="mailto:as-cicdtools-admin@cisco.com" target="_blank"> Admin </a>
+          with Asset name. Currently adding/updating assets is automated; Removal can only be done by the Admin.
+        </li>
+        <li>
+          Please note that if the asset is removed from Service Soaftware Catalog but is still present in
+          GitHub3 then it will be added back next time whenever there is change in GitHub3 in that asset folder.
+        </li>
+      </ul>
+    </li>
+    <br>
+
+  </ul>
+
+  <h3>
+    <small>
+      Mapping of GitHub3 Readme file to Services Software Catalog
+    </small>
+  </h3>
+  <br>
+  <img src="assets/path/to/image/gitassets.jpg">
+
+</div>

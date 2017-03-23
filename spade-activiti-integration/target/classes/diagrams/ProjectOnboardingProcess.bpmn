@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="ProjectOnboardingProcess" name="ProjectOnboardingProcess" isExecutable="true">
+    <startEvent id="startProjectOnboarding" name="startProjectOnboarding"></startEvent>
+    <serviceTask id="CreateRallyProject" name="CreateRallyProject" activiti:class="activiti.agent.RallyActivitiAgent">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+      </extensionElements>
+    </serviceTask>
+    <userTask id="ProjectApproval" name="ProjectApproval" activiti:assignee="kermit">
+      <extensionElements>
+        <activiti:formProperty id="Approval" name="Approval" type="string" variable="Approval" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <serviceTask id="GitHubProvServ" name="GitHubProvServ" activiti:class="activiti.agent.GithubActivitiAgent">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="SonarProvServ" name="SonarProvServ" activiti:class="activiti.agent.SonarQubeActivitiAgent">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="ArtifactoryProvServ" name="ArtifactoryProvServ" activiti:class="activiti.agent.ArtifactoryActivitiAgent">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="JenkinsProvServ" name="JenkinsProvServ" activiti:class="activiti.agent.JenkinsActivitiAgent">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.notification.EmailNotificationHandler"></activiti:executionListener>
+      </extensionElements>
+    </serviceTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <serviceTask id="ProjectRejMail" name="ProjectRejected" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${To}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[anunag@cisco.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression><![CDATA[Project Onboarding rejected for ${Project}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string><![CDATA[Hello]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <userTask id="FinanceApproval" name="FinanceApproval" activiti:assignee="kermit"></userTask>
+    <sequenceFlow id="flow11" sourceRef="ProjectApproval" targetRef="FinanceApproval">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${Approval == 'finance'}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="ProjectOnboardedMail" name="ProjectOnboarded" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${To}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[as-ca-user@cisco.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression><![CDATA[Project Onboarding completed for ${Project}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string><![CDATA[Hello,]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    color: Black;
+    width: 80%;
+}
+
+td, th {
+    border: 2px solid #2471a3;
+    text-align: left;
+    padding: 8px;
+}
+
+
+th {
+    background-color: #d7bde2;
+    color: Black;
+} 
+
+tr:nth-child(even) {
+    background-color: #85c1e9;
+}
+
+tr:nth-child(odd) {
+    background-color: #a3e4d7;
+}
+
+</style>
+</head>
+<body>
+
+	<h1 style="text-align: left;">Onborded Project Summary</h1>
+	<hr />
+	<table>
+		<thead>
+			<tr>
+				<th>Field</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Name</td>
+				<td>&nbsp;${Project}</td>
+			</tr>
+			<tr>
+				<td>Project Id</td>
+				<td>&nbsp;${ProjectId}</td>
+			</tr>
+			<tr>
+				<td>Project Management Base URL</td>
+				<td>&nbsp;${RallyBaseURL}</td>
+			</tr>
+			<tr>
+				<td>Source Repository URL</td>
+				<td>&nbsp;${GithubURL}</td>
+			</tr>
+			<tr>
+				<td>Continues Integration Job URL</td>
+				<td>&nbsp;${JenkinsJobURL}</td>
+			</tr>
+			<tr>
+				<td>Artifactory URL</td>
+				<td>&nbsp;${ArtifactoryURL}</td>
+			</tr>
+			<tr>
+				<td>Code Qality URL</td>
+				<td>&nbsp;${SonarQubeURL}</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>]]></activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <endEvent id="endevent2" name="End"></endEvent>
+    <sequenceFlow id="flow19" sourceRef="ProjectOnboardedMail" targetRef="endevent2"></sequenceFlow>
+    <serviceTask id="FinanceAppedMail" name="FinanceApproved" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${To}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[as-ca-user@cisco.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[Finance Approved]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:expression><![CDATA[${Project}'s finance approval is completed!]]></activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow20" sourceRef="FinanceApproval" targetRef="FinanceAppedMail"></sequenceFlow>
+    <sequenceFlow id="flow21" sourceRef="FinanceAppedMail" targetRef="ProjectApproved"></sequenceFlow>
+    <serviceTask id="ProjectApproved" name="ProjectApproved" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${To}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[as-ca-user@cisco.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[Project Approved]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:expression><![CDATA[${Project} has beed approved for onboarding!]]></activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow22" sourceRef="ProjectApproval" targetRef="ProjectApproved">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${Approval == 'approved'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="ApprovalDecision" name="ApprovalDecision" default="NoApproval"></exclusiveGateway>
+    <sequenceFlow id="GoForApproval" name="GoForApproval" sourceRef="ApprovalDecision" targetRef="ProjectApproval">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${Approval == 'yes'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="NoApproval" name="NoApproval" sourceRef="ApprovalDecision" targetRef="inclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow27" sourceRef="inclusivegateway1" targetRef="GitHubProvServ"></sequenceFlow>
+    <sequenceFlow id="flow28" sourceRef="inclusivegateway1" targetRef="SonarProvServ"></sequenceFlow>
+    <sequenceFlow id="flow29" sourceRef="inclusivegateway1" targetRef="ArtifactoryProvServ"></sequenceFlow>
+    <sequenceFlow id="flow30" sourceRef="parallelgateway2" targetRef="JenkinsProvServ"></sequenceFlow>
+    <sequenceFlow id="flow31" sourceRef="GitHubProvServ" targetRef="parallelgateway2"></sequenceFlow>
+    <sequenceFlow id="flow32" sourceRef="SonarProvServ" targetRef="parallelgateway2"></sequenceFlow>
+    <sequenceFlow id="flow33" sourceRef="ArtifactoryProvServ" targetRef="parallelgateway2"></sequenceFlow>
+    <sequenceFlow id="flow34" sourceRef="JenkinsProvServ" targetRef="ProjectOnboardedMail"></sequenceFlow>
+    <sequenceFlow id="flow35" sourceRef="ProjectRejMail" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow36" sourceRef="ProjectApproved" targetRef="inclusivegateway1"></sequenceFlow>
+    <parallelGateway id="parallelgateway2" name="Exclusive Gateway"></parallelGateway>
+    <sequenceFlow id="flow37" sourceRef="ProjectApproval" targetRef="ProjectRejMail">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${Approval == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+    <inclusiveGateway id="inclusivegateway1" name="Parallel Gateway"></inclusiveGateway>
+    <serviceTask id="OnBoardingStart" name="OnBoardingStart" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression><![CDATA[${To}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[as-ca-user@cisco.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression><![CDATA[Onboarding process started for ${Project}]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:expression><![CDATA[${Project} Onboarding process is started!]]></activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow38" sourceRef="startProjectOnboarding" targetRef="OnBoardingStart"></sequenceFlow>
+    <sequenceFlow id="flow39" sourceRef="OnBoardingStart" targetRef="CreateRallyProject"></sequenceFlow>
+    <sequenceFlow id="flow40" sourceRef="CreateRallyProject" targetRef="ApprovalDecision"></sequenceFlow>
+    <dataObject id="ProjectName" name="ProjectName" itemSubjectRef="xsd:string"></dataObject>
+    <dataObject id="Domain" name="Domain" itemSubjectRef="xsd:string"></dataObject>
+    <dataObject id="ProjectOwner" name="ProjectOwner" itemSubjectRef="xsd:string"></dataObject>
+    <dataObject id="ProjectDsc" name="ProjectDSC" itemSubjectRef="xsd:string"></dataObject>
+    <dataObject id="Approval" name="Approval" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>yes</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="EventType" name="start" itemSubjectRef="xsd:string"></dataObject>
+    <dataObject id="To" name="To" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>yugsingh@cisco.com, anunag@cisco.com</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="Project" name="Project" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>NSO_Test_Project</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="ProjectId" name="ProjectId" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>NSO_Test_Project_1234</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="RallyBaseURL" name="RallyBaseURL" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>https://rally1.rallydev.com/</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="JenkinsJobURL" name="JenkinsJobURL" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>https://engci-private-sjc.cisco.com/jenkins/sso-as/job/sandbox/job/Java_Project_Template/</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="GithubURL" name="GithubURL" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>https://github3.cisco.com</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <dataObject id="ArtifactoryURL" name="ArtifactoryURL" itemSubjectRef="xsd:string"></dataObject>
+    <dataObject id="SonarQubeURL" name="SonarQubeURL" itemSubjectRef="xsd:string"></dataObject>
+    <textAnnotation id="textannotation1">
+      <text>Portal will provide a form to submit the input details and start the project onboarding process</text>
+    </textAnnotation>
+    <textAnnotation id="textannotation2">
+      <text>In case of new project if the project approving person can ask for Finance approval if needed</text>
+    </textAnnotation>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ProjectOnboardingProcess">
+    <bpmndi:BPMNPlane bpmnElement="ProjectOnboardingProcess" id="BPMNPlane_ProjectOnboardingProcess">
+      <bpmndi:BPMNShape bpmnElement="startProjectOnboarding" id="BPMNShape_startProjectOnboarding">
+        <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="400.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CreateRallyProject" id="BPMNShape_CreateRallyProject">
+        <omgdc:Bounds height="55.0" width="105.0" x="240.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ProjectApproval" id="BPMNShape_ProjectApproval">
+        <omgdc:Bounds height="55.0" width="105.0" x="450.0" y="169.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="GitHubProvServ" id="BPMNShape_GitHubProvServ">
+        <omgdc:Bounds height="55.0" width="105.0" x="886.0" y="300.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SonarProvServ" id="BPMNShape_SonarProvServ">
+        <omgdc:Bounds height="55.0" width="105.0" x="886.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ArtifactoryProvServ" id="BPMNShape_ArtifactoryProvServ">
+        <omgdc:Bounds height="55.0" width="105.0" x="886.0" y="480.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="JenkinsProvServ" id="BPMNShape_JenkinsProvServ">
+        <omgdc:Bounds height="55.0" width="105.0" x="1180.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="608.0" y="50.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ProjectRejMail" id="BPMNShape_ProjectRejMail">
+        <omgdc:Bounds height="55.0" width="105.0" x="450.0" y="40.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="FinanceApproval" id="BPMNShape_FinanceApproval">
+        <omgdc:Bounds height="55.0" width="105.0" x="450.0" y="276.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ProjectOnboardedMail" id="BPMNShape_ProjectOnboardedMail">
+        <omgdc:Bounds height="55.0" width="105.0" x="1180.0" y="564.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1330.0" y="574.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="FinanceAppedMail" id="BPMNShape_FinanceAppedMail">
+        <omgdc:Bounds height="55.0" width="105.0" x="630.0" y="276.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ProjectApproved" id="BPMNShape_ProjectApproved">
+        <omgdc:Bounds height="55.0" width="105.0" x="630.0" y="169.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ApprovalDecision" id="BPMNShape_ApprovalDecision">
+        <omgdc:Bounds height="40.0" width="40.0" x="379.0" y="397.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway2" id="BPMNShape_parallelgateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="1074.0" y="397.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="inclusivegateway1" id="BPMNShape_inclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="809.0" y="397.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="OnBoardingStart" id="BPMNShape_OnBoardingStart">
+        <omgdc:Bounds height="55.0" width="105.0" x="100.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="textannotation1" id="BPMNShape_textannotation1">
+        <omgdc:Bounds height="101.0" width="100.0" x="37.0" y="275.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="textannotation2" id="BPMNShape_textannotation2">
+        <omgdc:Bounds height="101.0" width="100.0" x="350.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="502.0" y="224.0"></omgdi:waypoint>
+        <omgdi:waypoint x="502.0" y="276.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="1285.0" y="591.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1330.0" y="591.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="555.0" y="303.0"></omgdi:waypoint>
+        <omgdi:waypoint x="630.0" y="303.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="682.0" y="276.0"></omgdi:waypoint>
+        <omgdi:waypoint x="682.0" y="224.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="555.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="630.0" y="196.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="GoForApproval" id="BPMNEdge_GoForApproval">
+        <omgdi:waypoint x="399.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="398.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="196.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="74.0" x="399.0" y="381.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="NoApproval" id="BPMNEdge_NoApproval">
+        <omgdi:waypoint x="419.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="809.0" y="417.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="57.0" x="419.0" y="417.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="829.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="829.0" y="326.0"></omgdi:waypoint>
+        <omgdi:waypoint x="886.0" y="327.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="849.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="886.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
+        <omgdi:waypoint x="829.0" y="437.0"></omgdi:waypoint>
+        <omgdi:waypoint x="829.0" y="507.0"></omgdi:waypoint>
+        <omgdi:waypoint x="886.0" y="507.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow30" id="BPMNEdge_flow30">
+        <omgdi:waypoint x="1114.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1180.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
+        <omgdi:waypoint x="991.0" y="327.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1042.0" y="326.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1094.0" y="397.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
+        <omgdi:waypoint x="991.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1074.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow33" id="BPMNEdge_flow33">
+        <omgdi:waypoint x="991.0" y="507.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1046.0" y="507.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1094.0" y="437.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow34" id="BPMNEdge_flow34">
+        <omgdi:waypoint x="1232.0" y="445.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1232.0" y="564.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
+        <omgdi:waypoint x="555.0" y="67.0"></omgdi:waypoint>
+        <omgdi:waypoint x="608.0" y="67.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
+        <omgdi:waypoint x="735.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="775.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="829.0" y="397.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
+        <omgdi:waypoint x="502.0" y="169.0"></omgdi:waypoint>
+        <omgdi:waypoint x="502.0" y="95.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
+        <omgdi:waypoint x="55.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="100.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow39" id="BPMNEdge_flow39">
+        <omgdi:waypoint x="205.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow40" id="BPMNEdge_flow40">
+        <omgdi:waypoint x="345.0" y="417.0"></omgdi:waypoint>
+        <omgdi:waypoint x="379.0" y="417.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,48 @@
+<br>
+<div  class="container">
+  <h1>
+    <strong>Manage Projects</strong>
+  </h1>
+  <hr>
+  <div class="table-responsive" *ngIf="deleted">
+    <table class="table table-bordered table-striped">
+      <thead class="bg-info" align="center">
+      <tr>
+        <th>Onboard Id</th>
+        <th>Project Name</th>
+        <th>Project Type</th>
+        <th>Technology</th>
+        <th>Customer Name</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of projectList">
+          <td>{{project.onboardId}}</td>
+          <td>{{project.projectName}}</td>
+          <td>{{project.projectType}}</td>
+          <td>{{project.technologyName}}</td>
+          <td>{{project.customerName}}</td>
+          <td>Onboarded</td>
+          <td>
+            <button type="button" class="action" (click)="editProject(project.projectName, project.onboardId)">
+              <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px"></span>
+            </button>
+            <button type="button" class="action" (click)="deleteProject(project.onboardId)">
+              <span class="fa fa-minus-circle" aria-hidden="true" style="font-size:25px"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+
+  <div *ngIf="!deleted">
+    Project Disabled Successfully in Rally
+    <br><br>
+    <button type="button" class="btn btn-default" (click)="gotoManageProjects()">Go Back</button>
+  </div>
+</div>

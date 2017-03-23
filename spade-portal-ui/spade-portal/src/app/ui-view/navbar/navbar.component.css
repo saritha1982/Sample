@@ -1,0 +1,18 @@
+/*Navbar*/
+.nav-margin {
+  margin-left: 1% !important;
+  margin-right: 1% !important;
+}
+.img-margin {
+  margin-left: 0.5% !important;
+}
+.bg-faded {
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
+  border-bottom-color: #666666;
+}
+
+p {
+  font-size: .75rem;
+  margin-bottom: 0;
+}

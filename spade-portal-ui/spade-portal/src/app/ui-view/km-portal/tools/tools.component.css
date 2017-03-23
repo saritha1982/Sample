@@ -1,0 +1,22 @@
+.navbar-fixed-left {
+  /*margin-top: 30px !important;*/ /*Changed */
+  padding-top: 3%;
+  padding-left: 2%;
+  width: 12%;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+  color: blue;
+}
+
+.container {
+  margin-left: 13% !important;
+}
+
+.ng-valid[required], .ng-valid.required, input.ng-valid {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

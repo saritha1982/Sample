@@ -1,0 +1,142 @@
+<br>
+<div  class="container">
+  <h1>
+    <strong>Custom Dashboards</strong>
+  </h1>
+  <hr>
+  <!-- Table 1 -->
+  <h5>Onboarded Project Details</h5>
+  <div class="table-responsive">
+    <form [formGroup]="choiceForm">
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td>
+              <select class="form-control" formControlName="customerName">
+                <option>--Select a Customer--</option>
+                <option *ngFor="let cust of customerNameList">{{cust}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="form-control" formControlName="technology">
+                <option>--Select a Technology--</option>
+                <option *ngFor="let tech of technologyList">{{tech}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="form-control" formControlName="technology">
+                <option>--Select The Project State--</option>
+                <option *ngFor="let pro of projectStateList">{{pro}}</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
+    <table class="table table-bordered table-striped">
+      <thead class="bg-info" align="center">
+        <tr>
+          <th>Customer Name</th>
+          <th>Technology</th>
+          <th>Project Name</th>
+          <th>Project State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Singtel</td>
+          <td>NFV</td>
+          <td>Mega POP NFV</td>
+          <td>In-Progress</td>
+        </tr>
+        <tr>
+          <td>AT & T</td>
+          <td>NSO</td>
+          <td>AS-T ATT Core NSO</td>
+          <td>Completed</td>
+        </tr>
+        <tr>
+          <td>Verizon</td>
+          <td>NFV</td>
+          <td>Project 3</td>
+          <td>In-Progress</td>
+        </tr>
+        <tr>
+          <td>Ernst & Young</td>
+          <td>Cloud Automation</td>
+          <td>One Cloud</td>
+          <td>In-Progress</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
+
+  <!-- Table 2 -->
+  <h5>Onboarded User Details</h5>
+  <div class="table-responsive">
+    <form [formGroup]="choiceForm">
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+          <td>
+            <select class="form-control" formControlName="customerName">
+              <option>--Select a User--</option>
+              <option *ngFor="let user of userNameList">{{user}}</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control" formControlName="technology">
+              <option>--Select a Technology--</option>
+              <option *ngFor="let tech of technologyList">{{tech}}</option>
+            </select>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+
+    <table class="table table-bordered table-striped">
+      <thead class="bg-info" align="center">
+        <tr>
+          <th>User Name</th>
+          <th>User Email</th>
+          <th>Customer Name</th>
+          <th>Project Name</th>
+          <th>Technology Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mohitmal</td>
+          <td>mohitmal</td>
+          <td>ATT</td>
+          <td>AS-ATT-IOSXR/Tail-f-NSO</td>
+          <td>NSO</td>
+        </tr>
+        <tr>
+          <td>Sujani</td>
+          <td>schalaga</td>
+          <td>Comcast</td>
+          <td>AS-ComcastDC/Tail-f-NSO</td>
+          <td>NSO</td>
+        </tr>
+        <tr>
+          <td>Ramana</td>
+          <td>ramkotta</td>
+          <td>Comcast</td>
+          <td>AS-ComcastDC/Tail-f-NSO</td>
+          <td>NSO</td>
+        </tr>
+        <tr>
+          <td>Jane Juo</td>
+          <td>jianning</td>
+          <td>Comcast</td>
+          <td>AS-ComcastDC/Tail-f-NSO</td>
+          <td>NSO</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

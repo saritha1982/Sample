@@ -1,0 +1,65 @@
+<br>
+<div class="container">
+  <h1>
+    Edit Customer
+  </h1>
+  <hr>
+</div>
+
+<div class="container" [hidden]="submitted">
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+    <table class="table table-sm">
+      <tbody>
+      <tr>
+        <td>
+          <label for="customerName">Customer Name</label>
+        </td>
+        <td>
+          <input id="customerName" type="text" class="form-control" formControlName="customerName">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="emailAddress">Email Address</label>
+        </td>
+        <td>
+          <input id="emailAddress" type="email" class="form-control" formControlName="emailAddress">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="region">Region</label>
+        </td>
+        <td>
+          <!--  <input id="region" type="text" class="form-control" formControlName="region">  -->
+          <select id="region" class="form-control" formControlName="region" [(ngModel)]="region">
+            <option>--select a region--</option>
+            <option *ngFor="let reg of regionList" [ngValue]="reg">
+              {{reg}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="contact">Contact</label>
+        </td>
+        <td>
+          <input id="contact" type="text" class="form-control" formControlName="contact">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-default" [disabled]="!customerForm.valid">Update Customer</button>
+    <button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
+  </form>
+  <br>
+</div>
+
+<div class="container" [hidden]="!submitted">
+  <br>
+  <h5>Customer has been added Successfully.</h5>
+  <br>
+  <button type="button" class="btn btn-default" (click)="goBack()">Go Back</button>
+</div>
+

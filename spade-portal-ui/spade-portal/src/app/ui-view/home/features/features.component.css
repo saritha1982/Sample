@@ -1,0 +1,39 @@
+section {
+  padding: 2%;
+}
+section.features .section-heading {
+  margin-bottom: 2%;
+}
+section.features {
+  padding: 150px 0;
+  position: relative;
+}
+section.features h2 {
+  margin-top: 0;
+}
+section.features .badges .badge-link {
+  display: block;
+  margin-bottom: 25px;
+}
+section.features .badges .badge-link:last-child {
+  margin-bottom: 0;
+}
+section.features .badges .badge-link img {
+  height: 60px;
+}
+@media (min-width: 768px) {
+  section.features .badges .badge-link {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+@media (min-width: 768px) {
+  section.features h2 {
+    font-size: 70px;
+  }
+}
+
+/* Charts Section */
+section.charts {
+  background-color: #e7e7e7;
+}

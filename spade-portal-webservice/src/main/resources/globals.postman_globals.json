@@ -1,0 +1,21 @@
+{
+  "id": "d7364897-476d-7f99-ec3f-aaff6dd27a3d",
+  "name": "Postman Globals",
+  "values": [
+    {
+      "key": "{{hostname}}",
+      "value": "wwwin-spadekmportal-dev.cisco.com",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "{{customerId}}",
+      "value": "de796fbd-c823-11e6-9ef9-005056bf51bd",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2017-01-02T05:16:26.295Z",
+  "_postman_exported_using": "Postman/4.9.2"
+}

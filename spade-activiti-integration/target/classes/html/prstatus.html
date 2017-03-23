@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    color: Black;
+    width: 80%;
+}
+
+td, th {
+    border: 2px solid #2471a3;
+    text-align: left;
+    padding: 8px;
+}
+
+
+th {
+    background-color: #d7bde2;
+    color: Black;
+} 
+
+tr:nth-child(even) {
+    background-color: #85c1e9;
+}
+
+tr:nth-child(odd) {
+    background-color: #a3e4d7;
+}
+
+</style>
+</head>
+<body>
+
+	<h1 style="text-align: left;">Onborded Project Summary</h1>
+	<hr />
+	<table>
+		<thead>
+			<tr>
+				<th>Field</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Name</td>
+				<td>&nbsp;${Project}</td>
+			</tr>
+			<tr>
+				<td>Project Id</td>
+				<td>&nbsp;${ProjectId}</td>
+			</tr>
+			<tr>
+				<td>Project Management Base URL</td>
+				<td>&nbsp;${RallyBaseURL}</td>
+			</tr>
+			<tr>
+				<td>Source Repository URL</td>
+				<td>&nbsp;${GithubURL}</td>
+			</tr>
+			<tr>
+				<td>Continues Integration Job URL</td>
+				<td>&nbsp;${JenkinsJobURL}</td>
+			</tr>
+			<tr>
+				<td>Artifactory URL</td>
+				<td>&nbsp;${ArtifactoryURL}</td>
+			</tr>
+			<tr>
+				<td>Code Qality URL</td>
+				<td>&nbsp;${SonarQubeURL}</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

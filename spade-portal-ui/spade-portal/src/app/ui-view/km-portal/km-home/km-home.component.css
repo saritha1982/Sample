@@ -1,0 +1,36 @@
+.display {
+  padding: 2%;
+  /*text-align: center;*/
+
+}
+
+.display:hover {
+  background-color: beige;
+  cursor: pointer;
+  color: #607d8b;
+}
+h4 {
+  color: #64bbe3;
+  font-weight: normal;
+}
+
+/*  */
+.grid-divider {
+  max-width: 100%;
+  position: relative;
+  /*padding: 2%;*/
+}
+.grid-divider>[class*='col-'] {
+  position: static;
+}
+.grid-divider>[class*='col-']:nth-child(n+2):before {
+  content: "";
+  border-left: 1px solid #DDD;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.col-padding {
+  /*padding: 0 15px;*/
+  padding-left: 5%;
+}

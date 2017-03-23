@@ -1,0 +1,35 @@
+<br>
+<div class="container">
+  <h1>
+    Manage Customers
+  </h1>
+  <hr>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="bg-info">
+      <tr>
+        <th>Customer Name</th>
+        <th>Email Address</th>
+        <th>Region</th>
+        <th>Contact</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let cust of customerNameList">
+        <td>{{ cust.name }}</td>
+        <td>{{ cust.emailAddress }}</td>
+        <td>{{ cust.region }}</td>
+        <td>{{ cust.contact }}</td>
+        <td align="center">
+          <button type="button" class="action" (click)="editCustomer(cust.name, cust.emailAddress, cust.region, cust.contact)">
+            <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px" ></span>
+          </button>
+          <!--<button type="button" class="action">
+            <span class="fa fa-minus-circle" aria-hidden="true" style="font-size:25px"></span>
+          </button>-->
+        </td>
+      </tbody>
+    </table>
+  </div>
+</div>

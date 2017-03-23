@@ -1,0 +1,88 @@
+<br>
+<div class="container">
+  <h1>
+    Edit User
+  </h1>
+  <hr>
+</div>
+
+<div class="container" *ngIf="!submitted">
+  <form [formGroup]="userOnboardingForm" (ngSubmit)="onSubmit()">
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td>
+            <label for="projects">Project</label>
+          </td>
+          <td>
+            <select id="projects" (click)= "edit()" class="form-control" formControlName="Projects">
+              <option>--Select The Project to be Edited--</option>
+              <option *ngFor = "let p of projectList">{{p.projectName}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="userName">User Name</label>
+          </td>
+          <td>
+            <input id="userName" type="email" class="form-control" formControlName="userName" >
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="emailAddress">Email Address</label>
+          </td>
+          <td>
+            <input id="emailAddress" type="email" class="form-control" formControlName="emailAddress" >
+          </td>
+        </tr>
+        <!--<tr>
+          <td>
+            <label for="disabled">Disabled</label>
+          </td>
+          <td>
+            <input id="disabled" type="checkbox" formControlName="disabled">
+          </td>
+        </tr>-->
+        <tr>
+          <td>
+            <label for="workspace">Workspace</label>
+          </td>
+          <td>
+            <input id="workspace" type="text" class="form-control" formControlName="workspace">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="accessLevel">Access Level</label>
+          </td>
+          <td>
+            <select id = "accessLevel" class="form-control" formControlName="accessLevel" [(ngModel)] = "level" >
+              <option>--Select an Access Level--</option>
+              <option *ngFor = "let a of levels" [ngValue] = "a">{{a}}</option>
+            </select>
+           <!-- <input id="accessLevel" type="text" class="form-control" formControlName="accessLevel">-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Project Details Form -->
+
+    <button type="submit" class="btn btn-default" [disabled]="!userOnboardingForm.valid">Update User</button>
+    <button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
+  </form>
+  <br>
+</div>
+
+<div class="container" [hidden]="!submitted">
+  <br>
+  <h1>Your Request has been Submitted Successfully</h1>
+  <br>
+  <button type="button" class="btn btn-default" (click)="goBack()">Go Back</button>
+</div>
+
+
+
+
+

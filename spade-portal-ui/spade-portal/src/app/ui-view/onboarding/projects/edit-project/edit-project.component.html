@@ -1,0 +1,153 @@
+<br>
+<div class="container">
+  <h1>
+    Edit Project
+  </h1>
+  <hr>
+</div>
+
+<div class="container" [hidden]="submitted || successfulSubmission">
+  <form [formGroup]="projectOnboardingForm" (ngSubmit)="onSubmit()" novalidate>
+    <h5>Onboard Details</h5>
+    <hr>
+    <table class="table table-sm">
+      <tbody>
+
+      <tr>
+        <td>
+          <label for="onboardId">Onboard ID</label>
+        </td>
+        <td>
+          <input id="onboardId" type="text" class="form-control" formControlName="onboardId" >
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <h5>Project Details</h5>
+    <hr>
+    <table class="table table-sm">
+      <tbody>
+      <tr>
+        <td>
+          <label for="customerName">Customer Name</label>
+        </td>
+        <td>
+          <input id="customerName" type="text" class="form-control" formControlName="customerName">
+        </td>
+        <td>
+          <label for="workType">Work Type</label>
+        </td>
+        <td>
+          <input id="workType" type="text" class="form-control" formControlName="workType">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="technology">Technology</label>
+        </td>
+        <td>
+          <input id="technology" type="text" class="form-control" formControlName="technology">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="projectName">Project Name</label>
+        </td>
+        <td>
+          <input id="projectName" type="text" class="form-control" formControlName="projectName">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="startDate">Project Start Date</label>
+        </td>
+        <td>
+          <input id="startDate" type="date" class="form-control" formControlName="projectStartDate" style="text-transform:uppercase">
+        </td>
+        <td>
+          <label for="endDate">Project End Date</label>
+        </td>
+        <td>
+          <input id="endDate" type="date" class="form-control" formControlName="projectEndDate" style="text-transform:uppercase">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="projectRequestType">Project Request Type</label>
+        </td>
+        <td>
+          <select id="projectRequestType" class="form-control" formControlName="projectRequestType" [(ngModel)] = "projectRequestType">
+            <option *ngFor="let p of projectRequestTypeList" [ngValue] = "p.name">
+              {{p.name}}
+            </option>
+          </select>
+        </td>
+        <td *ngIf="(projectRequestTypeSync | async) == 'Change Request' || (projectRequestTypeSync | async) == 'Code Dev' || projectRequestType == 'Change Request' || projectRequestType == 'Code Dev'">
+          <label for="earlierProjectReference">Earlier Project Reference</label>
+        </td>
+        <td *ngIf="(projectRequestTypeSync | async) == 'Change Request' || (projectRequestTypeSync | async) == 'Code Dev' || projectRequestType == 'Change Request' || projectRequestType == 'Code Dev'">
+          <select id="earlierProjectReference" class="form-control" formControlName="earlierProjectReference" [(ngModel)] = "earlierProjectReference">
+            <option>--Select a Project Reference--</option>
+            <option *ngFor="let e of earlierProjectReferenceList" [ngValue] = "e.projectName">
+              {{e.projectName}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr *ngIf="(projectRequestTypeSync | async) == 'Code Dev' || projectRequestType == 'Code Dev'">
+        <td>
+          <label for="businessUnit">Business Unit</label>
+        </td>
+        <td>
+          <input id="businessUnit" type="text" class="form-control" formControlName="businessUnit">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="projectManager">Project Manager</label>
+        </td>
+        <td>
+          <input id="projectManager" type="text" class="form-control" formControlName="projectManager">
+        </td>
+        <td>
+          <label for="projectType">Project Type</label>
+        </td>
+        <td>
+          <select id="projectType" class="form-control" formControlName="projectType" [(ngModel)] = "projectType">
+            <option>--Select a Project Type--</option>
+            <option *ngFor="let p of projectTypeList" [ngValue] = "p.name">
+              {{p.name}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="parentProject">Parent Project</label>
+        </td>
+        <td>
+          <input id="parentProject" type="text" class="form-control" formControlName="parentProject">
+        </td>
+        <td>
+          <label for="notes">Notes</label>
+        </td>
+        <td>
+          <textarea id="notes" rows="3" cols="25" class="form-control" formControlName="notes"></textarea>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-default" [disabled]=!projectOnboardingForm.valid>Update Project</button>
+    <button type="button" class="btn btn-default" (click)="goBack()">Cancel</button>
+  </form>
+  <br>
+</div>
+
+<div class="container" [hidden]="!submitted">
+  <br>
+  <h1>Your Request has been Submitted Successfully</h1>
+  <br>
+  <button type="button" class="btn btn-default" (click)="goBack()">Go Back</button>
+</div>

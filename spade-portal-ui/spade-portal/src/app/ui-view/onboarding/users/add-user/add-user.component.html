@@ -1,0 +1,155 @@
+<br>
+<div class="container">
+  <h1>
+    Add User
+  </h1>
+  <hr>
+</div>
+
+<div class="container" [hidden]="submitted || successfulSubmission">
+  <form [formGroup]="userOnboardingForm" (ngSubmit)="onSubmit()">
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td>
+            <label for="userName">User Name</label>
+          </td>
+          <td>
+            <input id="userName" type="email" class="form-control" formControlName="userName" [(ngModel)]="user">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="emailAddress">Email Address</label>
+          </td>
+          <td>
+            <input id="emailAddress" type="email" class="form-control" formControlName="emailAddress" value={{user}}>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="workspace">Workspace</label>
+          </td>
+          <td>
+            <input id="workspace" type="text" class="form-control" formControlName="workspace">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="accessLevel">Access Level</label>
+          </td>
+          <td>
+            <select id = "accessLevel" class="form-control" formControlName="accessLevel">
+              <option>---SELECT AN ACCESS LEVEL---</option>
+              <option *ngFor = "let a of accessLevels">{{a}}</option>
+            </select>
+           <!-- <input id="accessLevel" type="text" class="form-control" formControlName="accessLevel">-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Project Details Form -->
+    <form [formGroup]="projectDetailsForm" (ngSubmit)="submitProjectDetails(projectForm)">
+      <h5>Project Details</h5>
+      <table class="table table-sm table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Project Access</th>
+            <th>Project Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <!-- Project Details List -->
+        <tbody *ngIf="projectAdded == true">
+          <tr *ngFor="let pro of projectDetailsList">
+            <td>
+              {{pro.onBoardId}}
+            </td>
+            <td>
+              {{pro.projectRole}}
+            </td>
+            <td align="center">
+              <!--<button type="button" class="action" (click)="editProjectDetail(pro.projectName, pro.projectRole)">
+                <span class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:23px;"></span>
+              </button>-->
+              <button type="button" class="action" (click)="deleteProjectDetail(pro.projectName, pro.projectRole)">
+                <span class="fa fa-minus-circle" aria-hidden="true"  style="font-size:25px"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <!-- Enter Details -->
+        <tbody>
+          <tr>
+            <td>
+              <select id="projectName" class="user-form-control" formControlName="onBoardId" (click) = "checkUser()">
+                <option value="">--Select a Project--</option>
+                <option *ngFor="let pro of projectList">{{pro.projectName}}/{{pro.onboardId}}</option>
+              </select>
+            </td>
+            <td>
+              <select id="projectRole" class="user-form-control" formControlName="projectRole" >
+                <option value="">--Select a Project Role--</option>
+                <option *ngFor="let role of projectRoleList">{{role.roleName}}</option>
+              </select>
+            </td>
+            <td align="center">
+              <button type="submit" class="action">
+                <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:25px"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <!-- Edit Details -->
+        <!--<tbody *ngIf="editOption == true">
+          <tr>
+            <td>
+              <select id="projectName" class="user-form-control" formControlName="projectName" value="projectName | async">
+                <option value="">&#45;&#45;Select a Project&#45;&#45;</option>
+                <option *ngFor="let pro of projectsList">{{pro}}</option>
+              </select>
+            </td>
+            <td>
+              <select id="projectRole" class="user-form-control" formControlName="projectRole" value="projectRole | async">
+                <option value="">&#45;&#45;Select a Project Role&#45;&#45;</option>
+                <option *ngFor="let role of projectRoleList">{{role}}</option>
+              </select>
+            </td>
+            <td align="center">
+              <button type="submit" class="action">
+                <span class="fa fa-plus-circle" aria-hidden="true" style="font-size:25px"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>-->
+      </table>
+    </form>
+    <button type="submit" class="btn btn-default" [disabled]="!userOnboardingForm.valid">Add User</button>
+  </form>
+  <br>
+</div>
+
+
+
+<div class="container" [hidden]="!submitted">
+  <br>
+  <span>Please WAIT.........</span>
+  <br>
+</div>
+
+<div class="container" [hidden]="!successfulSubmission">
+  <br>
+  <!--<h5>Thanks for submitting the request.</h5>-->
+  <h1>Your Request has been Submitted Successfully</h1>
+  <br>
+  <div class=".container-fluid">
+    <h2>Status: </h2>
+    <ul>
+        <li class="alert alert-success">User Successfully onboarded to Rally.</li>
+        <li class="alert alert-success" *ngIf="!notverified">User Successfully onboarded to Github.</li>
+        <li *ngIf="notverified" class="alert alert-danger"> User doesn't exist in Github. Please contact <a href = "mailto:dummy@cisco.com"></a></li>
+    </ul>
+  </div>
+  <br>
+  <button type="button" class="btn btn-default" (click)="goBack()">Go Back</button>
+</div>
